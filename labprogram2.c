@@ -5,54 +5,54 @@ STR with REP if PAT exists in STR. Report suitable messages in case PAT does not
 in STR. 
 Support the program with functions for each of the above operations. Don't use Built-in 
 functions. */
+
+
+
+//DSA_LAB_PROGRAM_2
 #include <stdio.h>
-void main()
-{
-    char STR[100], PAT[100], REP[100], ans[100];
-    int i, j, c, m, k, flag = 0;
-    printf("\nEnter the MAIN string: \n");
-    gets(STR);
-    printf("\nEnter a PATTERN string: \n");
-    gets(PAT);
-    printf("\nEnter a REPLACE string: \n");
-    gets(REP);
+#include <stdlib.h>
+#include <string.h>
+
+
+//finding pattern in string
+void findpat(char *str, char *pat, char *rep){
+    int i,m,k,c,j,flag=0;
+    char res[100];
     i = m = c = j = 0;
-    while (STR[c] != '\0')
-    {
-        // Checking for Match
-        if (STR[m] == PAT[i])
-        {
+    while ( str[c]!='\0'){
+        if (str[m] == pat[i]){ 
             i++;
             m++;
-            if (PAT[i] == '\0')
-            {
-                //copy replace string in ans string
-                for (k = 0; REP[k] != '\0'; k++, j++)
-                {
-                    ans[j] = REP[k];
-                    flag = 1;
+            if ( pat[i]=='\0'){
+                for(k=0; rep[k]!='\0'; k++){
+                    res[j] = rep[k];
+                    j++;
+                    flag=1;
                 }
-
-                i = 0;
-                c = m;
+                i=0;
+                c=m;
             }
         }
-        else //mismatch
-        {
-            ans[j] = STR[c];
+        else{
+            res[j] = str[c];
             j++;
             c++;
             m = c;
-            i = 0;
+            i=0;
         }
     }
-    if (flag == 0)
-    {
-        printf("Pattern doesn't found!!!");
+    if(flag==0){
+        printf("pattern not found\n");
     }
-    else
-    {
-        ans[j] = '\0';
-        printf("\nThe RESULTANT string is:%s\n", ans);
+    else{
+        res[j] = '\0';
+        printf("\nThe resultant string is: %s\n" , res);
     }
+}
+
+int main(){
+    char str[100], pat[100], rep[100];
+    scanf("%s %s %s", &str, &pat, &rep);
+    findpat(str, pat, rep);
+    return 0;
 }
