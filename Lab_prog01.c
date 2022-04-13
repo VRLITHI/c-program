@@ -37,7 +37,7 @@ int fn_create(){
 
 int fn_display(){
     for(size_t i = 0;i < size;i++){
-        printf("element value = %d at element location = %zu\n",i,arr[i]);
+        printf("element value = %d at element location = %zu\n",arr[i],i);
     }
 }
 
