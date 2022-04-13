@@ -1,167 +1,94 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <stdbool.h>
+#include<stdlib.h>
+#include<stdio.h>
 
-#define CHOICE_CREATE  1
+#define CHOICE_CREATE 1
 #define CHOICE_DISPLAY 2
-#define CHOICE_INSERT  3
-#define CHOICE_DELETE  4
-#define CHOICE_EXIT    0
-/**
- * This program implements a menu driven task to get familiar with
- * Array insertion, Array deletion and displaying contents of array.
- **/
-unsigned int menu() {
-  unsigned int choice = CHOICE_DELETE + 1;
-  while (choice > CHOICE_DELETE) {
-    printf("Enter your choice:\n");
-    printf("\t %u - Create Array\n", CHOICE_CREATE);
-    printf("\t %u - Display Array Elements\n", CHOICE_DISPLAY);
-    printf("\t %u - Insert Element at a Position\n", CHOICE_INSERT);
-    printf("\t %u - Delete an Element at a Position\n", CHOICE_DELETE);
-    printf("\t %u - Exit\n", CHOICE_EXIT);
-    printf("\t choice: ");
-    scanf("%d", &choice);
-    if (choice > CHOICE_DELETE) {
-      printf("ERROR: Invalid Choice\n");
-    }
-  }
-  return choice;
-}
+#define CHOICE_INSERT 3
+#define CHOICE_DELETE 4
+#define CHOICE_EXIT 0
 
-/**
- * Create and initialize the array of integers of given size.
- * i/p: size of integer array
- * o/p: array pointer when created successfully else NULL
- * Array elements are initialize with INT_MIN (limits.h)
- **/
-int *fn_create(size_t size) {
-  int *arr = calloc(size, sizeof(int));
-  if (arr != (int *)NULL) {
-    for (size_t i=0; i<size; i++){
-      *(arr+i) = INT_MIN;
-    }
-  }
-  return arr;
-}
-
-/**
- * Display all array elements with non-zero values along with their locations
- * Location display is required because array may contain holes
- **/
-void fn_display(size_t arrsize, int arr[arrsize]) {
-  for (size_t i = 0; i < arrsize; i++) {
-    if (arr[i] != INT_MIN) {
-      printf("Element location=%zu, Element value %d\n", i, arr[i]);
-    }
-  }
-}
-
-/**
- * Ask user array location and element value as an integer.
- * Insert the value at the specified location only if location is empty.
- * The value INT_MIN is not permissible as this is initialized value.
- **/
-bool fn_insert(size_t arrsize, int arr[arrsize]){
-  size_t location;
-  int    value;
-  bool retval = false;
-  printf("Specify the location at which value to be inserted\n");
-  printf("Location should be in the range 0-%zu: ", arrsize - 1);
-  scanf("%zu", &location);
-  if (location >=arrsize) {
-    printf("Location %zu exceeds array size %zu\n", location, arrsize);
-  } else if (arr[location] != INT_MIN) {
-    printf("Location %zu already occupied with value %d\n", location, arr[location]);
-  } else {
-    printf("Enter the value to be inserted at location %zu: ", location);
-    scanf("%d", &value);
-    arr[location] = value;
-    retval = true;
-  }
-  return retval;
-}
-
-/**
- * Ask user array location at which location is to be deleted.
- * Delete the value at the specified location only if location is non-empty.
- **/
-bool fn_delete(size_t arrsize, int arr[arrsize]){
-  size_t location;
-  bool retval = false;
-  printf("Specify location (0-%zu) whose value to be deleted: ", arrsize - 1);
-  scanf("%zu", &location);
-  if (location >=arrsize) {
-    printf("Location %zu exceeds array size %zu\n", location, arrsize);
-  } else if (arr[location] == INT_MIN) {
-    printf("Location %zu does not contain any value \n", location);
-  } else {
-    printf("The value %d at location %zu has been deleted\n", arr[location], location);
-    arr[location] = INT_MIN;
-    retval = true;
-  }
-  return retval;
-}
-
-/** Releases the memory allocated for array
- * i/p: array pointer
- **/
-void fn_exit(int *arr) {
-  if (arr != NULL) {
-    free(arr);
-  }
-}
-int main() {
-  size_t  arrsize = 0; // Array size
-  int*  array = NULL; // actual array element are stored here
-  size_t choice;
-
-  while (true) {
-    choice = menu();
-    switch (choice) {
-      case CHOICE_CREATE:
-        if (array != NULL) {
-          printf("There already exists an array, with following elements\n");
-          fn_display(arrsize, array);
-        } else {
-          printf("Please Specify the array size: ");
-          scanf("%zu", &arrsize);
-          array = fn_create(arrsize);
+unsigned int menu(){
+    unsigned int choice = CHOICE_DELETE + 1;
+    while(choice > CHOICE_DELETE){
+        printf("enter the choice:\n");
+        printf("\t %u - create array\n", CHOICE_CREATE);
+        printf("\t %u - display the array elements\n", CHOICE_DISPLAY);
+        printf("\t %u - insert the element at position\n", CHOICE_INSERT);
+        printf("\t %u - delete an element at position\n", CHOICE_DELETE);
+        printf("\t %u - exit\n", CHOICE_EXIT);
+        printf("\tchoice:");
+        scanf("%d", &choice);
+        if(choice > CHOICE_DELETE){
+            printf("ERROR:invalid chice\n");
         }
-        break;
-
-      case CHOICE_DISPLAY:
-        if (array == NULL) {
-          printf("Array is not initialized yet. Please first create an array\n");
-          continue;
-        }
-        fn_display(arrsize, array);
-        break;
-
-      case CHOICE_INSERT:
-        if (array == NULL) {
-          printf("Array is not initialized yet. Please first create an array\n");
-          continue;
-        }
-        fn_insert(arrsize, array);
-        break;
-
-      case CHOICE_DELETE:
-        if (array == NULL) {
-          printf("Array is not initialized yet. Please first create an array\n");
-          continue;
-        }
-        fn_delete(arrsize, array);
-        break;
-
-      case CHOICE_EXIT:
-      default:
-        fn_exit(array);
-        array = NULL;
-        exit(0);
-        break;
     }
-  }
+    return choice;
+}
 
+int arr[4],size;
+
+int fn_create(){
+    printf("enter the size of array\n");
+    scanf("%d", &size);
+    printf("enter the elements to array\n");
+    for (int i = 0; i < size; i++)
+        scanf("%d", &arr[i]);
+}
+
+int fn_display(){
+    for(size_t i = 0;i < size;i++){
+        printf("element value = %d at element location = %zu\n",i,arr[i]);
+    }
+}
+
+int fn_insert(){
+    int loc,elem;
+    printf("\nspecify the location at which value to be inserted from range 0-%d:",size - 1);
+    scanf("%d",&loc);
+    printf("\nenter the element to inserted:");
+    scanf("%d",&elem);
+    for(int i = size - 1;i >= loc;i--)
+        arr[i + 1] = arr[i];
+        arr[loc] = elem;
+        size = size + 1;
+}
+
+
+int fn_delete(){
+    int loc,elem;
+    printf("\nenter the location from (0-%d) the element to be deleted:",size-1);
+    scanf("%d",&loc);
+    elem = arr[loc];
+    for(int i = loc;i < size -1;i++)
+        arr[i] = arr[i +1];
+    size = size - 1;
+    printf("deleted the %d from the location %d",elem,loc);
+}
+
+int fn_exit(int *arr){
+    if(arr!=NULL){
+    }
+}
+
+
+int main(){
+    int choice;
+
+    while(choice != 5){
+        choice = menu();
+        switch(choice){
+           case CHOICE_CREATE : fn_create();
+           break;
+           case CHOICE_INSERT : fn_insert();
+           break;
+           case CHOICE_DELETE : fn_delete();
+           break;
+           case CHOICE_DISPLAY : fn_display();
+           break;
+           case CHOICE_EXIT :  exit (0);
+           default:
+           printf("invalid choice");
+           break;
+        }
+    }
 }
